@@ -1,7 +1,12 @@
 import requests
+import sys
 from bs4 import BeautifulSoup
 
-entrada = input("Enter author or book name\n")
+try:
+    entrada = sys.argv[1]
+except IndexError:
+    entrada = input("Author or book name:\n")
+    
 URL = "https://pt.annas-archive.org/search?q="+entrada
 page = requests.get(URL)
 soup = BeautifulSoup(page.content, "html.parser")
