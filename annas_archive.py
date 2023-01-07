@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-def search(input, limit=10):
+def search(input, limit=5):
     URL = "https://pt.annas-archive.org/search?q="+input
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")

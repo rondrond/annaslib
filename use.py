@@ -1,11 +1,10 @@
 import annas_archive as anna
 import sys
 
-limit = 5
 try:
-    books = anna.search(sys.argv[1], sys.argv[2])
+    books = anna.search(sys.argv[1]tes)
 except IndexError:
-    books = anna.search(input("Author or book name:\n"), limit)
+    books = anna.search(input("Author or book name:\n"))
     
 for book in books:
     print(f'{book[1]}, de {book[0]}. {book[4]}')
