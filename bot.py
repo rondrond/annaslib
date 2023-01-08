@@ -4,6 +4,7 @@ import annas_archive as anna
 import re
 botat = '@bibliotecaria'
 hashtag ="pfv"
+thanks = "brigad"
 
 mastodon = Mastodon(
     access_token = '../token.secret',
@@ -15,7 +16,8 @@ def remove_html_tags(text):
 
 class Listener(StreamListener):
         def on_notification(self, notification):
-            book_name = remove_html_tags(notification["status"]["content"]).replace(botat, '')
+            if(notification["type"] == "mention"):
+                book_name = remove_html_tags(notification["status"]["content"]).lower().replace(botat, '')
            
             if((notification["type"] == "mention") and (len(notification["status"]["tags"])>0)):
                 clean_tags = []
@@ -23,7 +25,7 @@ class Listener(StreamListener):
                     clean_tags.append(tag["name"].lower())
                     book_name = book_name.replace(tag["name"], '')
                 book_name = book_name.replace('#', '')
-                
+
                 if(hashtag in clean_tags):    
                     print(f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
                     books = anna.search(book_name, limit=3)
@@ -34,7 +36,13 @@ class Listener(StreamListener):
                     suggestions = "@"+notification["account"]["acct"]+" Oi! Essas são minhas sugestões:\n"+suggestions
                     mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"])
                     print(suggestions)
-                    
-                mastodon.notifications_dismiss(notification["id"])
+
+            elif((notification["type"] == "mention") and (book_name.__contains__(thanks))):
+                msg = "@"+notification["account"]["acct"]+" eu que agradeço, flor!"
+                mastodon.status_post(msg, in_reply_to_id=notification["status"]["id"])
+                print(f'Agradeci a {notification["account"]["acct"]}')
+
+            mastodon.notifications_dismiss(notification["id"])
+
 
 mastodon.stream_user(Listener())
