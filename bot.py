@@ -28,7 +28,6 @@ class Listener(StreamListener):
                     if(hashtag in clean_tags):    
                         print(f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
                         books = anna.search(book_name, limit=3)
-                        print(f'Livro solicitado: {book_name}, minhas sugestões são:')
                         suggestions = ""
                         for book in books:
                             suggestions = suggestions + book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
