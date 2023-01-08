@@ -21,6 +21,9 @@ class Listener(StreamListener):
                 clean_tags = []
                 for tag in notification["status"]["tags"]:
                     clean_tags.append(tag["name"].lower())
+                    book_name = book_name.replace(tag["name"], '')
+                book_name = book_name.replace('#', '')
+                
                 if(hashtag in clean_tags):    
                     print(f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
                     books = anna.search(book_name, limit=3)
