@@ -26,10 +26,6 @@ class Listener(StreamListener):
                 mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"])
                 print(suggestions)
                 
-#            elif((notification["type"] == follow)):
-#                print(f'Pedido de seguir de {notification["account"]["acct"]}, seguindo de volta!')
-#                mastodon.follows(notification["account"]["acct"])
-            
             mastodon.notifications_dismiss(notification["id"])
 
 mastodon.stream_user(Listener())
