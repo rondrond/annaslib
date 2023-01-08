@@ -2,14 +2,13 @@ from mastodon import Mastodon
 from mastodon import StreamListener
 import annas_archive as anna
 import re
+
 botat = '@bibliotecaria'
 hashtag ="pfv"
 thanks = "brigad"
 
-mastodon = Mastodon(
-    access_token = '../token.secret',
-    api_base_url = 'https://botsin.space/'
-)
+mastodon = Mastodon(access_token = '../token.secret', api_base_url = 'https://botsin.space/')
+
 def remove_html_tags(text):
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
