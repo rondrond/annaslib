@@ -1,6 +1,5 @@
 from mastodon import Mastodon
 from mastodon import StreamListener
-from bs4 import BeautifulSoup
 import annas_archive as anna
 import re
 botat = '@bibliotecaria'
