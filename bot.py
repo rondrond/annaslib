@@ -32,12 +32,12 @@ class Listener(StreamListener):
                     for book in books:
                         suggestions = suggestions + book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
                     suggestions = "@"+notification["account"]["acct"]+" Oi! Essas são minhas sugestões:\n"+suggestions
-                    mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"])
+                    mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"], visibility='direct')
                     print(suggestions)
 
             elif(book_name.__contains__(thanks)):
                 msg = "@"+notification["account"]["acct"]+" eu que agradeço, flor!"
-                mastodon.status_post(msg, in_reply_to_id=notification["status"]["id"])
+                mastodon.status_post(msg, in_reply_to_id=notification["status"]["id"], visibility='direct')
                 print(f'Agradeci a {notification["account"]["acct"]}')
 
             mastodon.notifications_dismiss(notification["id"])
