@@ -28,12 +28,21 @@ class Listener(StreamListener):
                 if(hashtag in clean_tags):    
                     print(f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
                     books = anna.search(book_name, limit=3)
-                    suggestions = ""
-                    for book in books:
-                        suggestions = suggestions + book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
-                    suggestions = "@"+notification["account"]["acct"]+" Oi! Essas são minhas sugestões:\n"+suggestions
-                    mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"], visibility='direct')
-                    print(suggestions)
+                    if(len(books) == 0):
+                        mastodon.status_post("Oi! Não encontrei nenhum livro", in_reply_to_id=notification["status"]["id"], visibility='direct')
+                        print(f'Não encontrei nenhum livro')
+                    else:
+                        suggestions = ""
+                        for book in books:
+                            if(len(books)>1):
+                                suggestions = suggestions + book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
+                            
+                            else:
+                                suggestions = book[1]+", de "+book[0]+". "+book[3]+"\n"
+                                    
+                        suggestions = "@"+notification["account"]["acct"]+" Oi! Essas são minhas sugestões:\n"+suggestions
+                        mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"], visibility='direct')
+                        print(suggestions)
 
             elif(book_name.__contains__(thanks)):
                 msg = "@"+notification["account"]["acct"]+" eu que agradeço, flor!"
