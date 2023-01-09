@@ -3,6 +3,7 @@ from mastodon import StreamListener
 import annas_archive as anna
 import re
 import urllib3
+import time
 
 botat = '@bibliotecaria'
 hashtag ="pfv"
@@ -58,13 +59,13 @@ try:
     mastodon.stream_user(Listener())
 except urllib3.exceptions.ReadTimeoutError:
     print('Erro na conexão! Reiniciando')
-    wait(3)
+    time.sleep(3)
     mastodon.stream_user(Listener())
 except KeyboardInterrupt:
     print('Fechando programa e reiniciando')
-    wait(3)
+    time.sleep(3)
     mastodon.stream_user(Listener())
 except:
     print('Algum outro erro!')
-    wait(3)
+    time.sleep(3)
     mastodon.stream_user(Listener())
