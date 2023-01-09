@@ -2,6 +2,7 @@ from mastodon import Mastodon
 from mastodon import StreamListener
 import annas_archive as anna
 import re
+import urllib3
 
 botat = '@bibliotecaria'
 hashtag ="pfv"
@@ -50,5 +51,11 @@ class Listener(StreamListener):
                 print(f'Agradeci a {notification["account"]["acct"]}')
 
             mastodon.notifications_dismiss(notification["id"])
-
-mastodon.stream_user(Listener())
+try:
+    mastodon.stream_user(Listener())
+except urllib3.exceptions.ReadTimeoutError:
+    print('Erro na conexão!')
+except KeyboardInterrupt:
+    print('Fechando programa')
+except:
+    print('Algum outro erro!')
