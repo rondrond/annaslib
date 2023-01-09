@@ -57,8 +57,14 @@ class Listener(StreamListener):
 try:
     mastodon.stream_user(Listener())
 except urllib3.exceptions.ReadTimeoutError:
-    print('Erro na conexão!')
+    print('Erro na conexão! Reiniciando')
+    wait(3)
+    mastodon.stream_user(Listener())
 except KeyboardInterrupt:
-    print('Fechando programa')
+    print('Fechando programa e reiniciando')
+    wait(3)
+    mastodon.stream_user(Listener())
 except:
     print('Algum outro erro!')
+    wait(3)
+    mastodon.stream_user(Listener())
