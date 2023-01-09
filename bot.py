@@ -40,9 +40,12 @@ class Listener(StreamListener):
                             
                             else:
                                 suggestions = book[1]+", de "+book[0]+". "+book[3]+"\n"
-                                    
+                        if(("public" in clean_tags)):
+                            visib = 'public'
+                        else:
+                            visib = 'direct'            
                         suggestions = "@"+notification["account"]["acct"]+" Oi! Essas são minhas sugestões:\n"+suggestions
-                        mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"], visibility='direct')
+                        mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"], visibility=visib)
                         print(suggestions)
 
             elif(book_name.__contains__(thanks)):
