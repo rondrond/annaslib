@@ -61,10 +61,6 @@ except urllib3.exceptions.ReadTimeoutError:
     print('Erro na conexão! Reiniciando')
     time.sleep(3)
     mastodon.stream_user(Listener())
-except KeyboardInterrupt:
-    print('Fechando programa e reiniciando')
-    time.sleep(3)
-    mastodon.stream_user(Listener())
 except:
     print('Algum outro erro!')
     time.sleep(3)
