@@ -14,30 +14,36 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await update.message.reply_html(
         rf"Oi {user.mention_html()}!, boyzera demais? Use o comando /pesquisar com o nome ou o ISBN de um livro que você quer baixar.",
-        reply_markup=ForceReply(selective=True, input_field_placeholder='/pesquisar '),
+        reply_markup=ForceReply(
+            selective=True, input_field_placeholder='/pesquisar '),
     )
+
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Uai, quer ajuda com o quê?!")
 
+
 async def search_book(update: Update, context) -> None:
     name = " ".join(context.args)
     books = anna.search(name, limit=3)
-    if(len(books) == 0):
+    if (len(books) == 0):
         await update.message.reply_text('Não encontrei nenhum livro')
     else:
         suggestions = ""
         for book in books:
-            if(len(books)>1):
-                suggestions = suggestions + book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
-            
+            if (len(books) > 1):
+                suggestions = suggestions + \
+                    book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
+
             else:
-                suggestions = book[1]+", de "+book[0]+". "+book[3]+"\n"          
+                suggestions = book[1]+", de "+book[0]+". "+book[3]+"\n"
         suggestions = "Oi! Essas são minhas sugestões:\n"+suggestions
         await update.message.reply_text(suggestions)
 
+
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    MemePy.MemeGenerator.save_meme_to_disk('Classy', 'memes', ["Bibliotecaria virtual", update.message.text])
+    MemePy.MemeGenerator.save_meme_to_disk(
+        'Classy', 'memes', ["Bibliotecaria virtual", update.message.text])
     await update.message.reply_document(document=open('memes/meme.jpg', 'rb'))
     await update.message.reply_text("tô anotando tudo, meus advogados entrarão em contato!")
     print(update.message.text)
@@ -53,7 +59,6 @@ def main() -> None:
 
     application.add_handler(MessageHandler(filters.TEXT, echo))
     application.run_polling()
-
 
 
 if __name__ == "__main__":

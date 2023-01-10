@@ -6,55 +6,71 @@ import urllib3
 import time
 
 botat = '@bibliotecaria'
-hashtag ="pfv"
+hashtag = "pfv"
 thanks = "brigad"
 
-mastodon = Mastodon(access_token = '../token.secret', api_base_url = 'https://botsin.space/')
+mastodon = Mastodon(access_token='../token.secret',
+                    api_base_url='https://botsin.space/')
+
 
 def remove_html_tags(text):
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
+
 class Listener(StreamListener):
     def on_notification(self, notification):
-        if(notification["type"] == "mention"):
-            book_name = remove_html_tags(notification["status"]["content"]).lower().replace(botat, '')
-        
-            if(len(notification["status"]["tags"])>0):
+        if (notification["type"] == "mention"):
+            book_name = remove_html_tags(
+                notification["status"]["content"]).lower().replace(botat, '')
+
+            if (len(notification["status"]["tags"]) > 0):
                 clean_tags = []
                 for tag in notification["status"]["tags"]:
                     clean_tags.append(tag["name"].lower())
                     book_name = book_name.replace(tag["name"], '')
                 book_name = book_name.replace('#', '')
 
-                if(hashtag in clean_tags):    
-                    print(f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
+                if (hashtag in clean_tags):
+                    print(
+                        f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
                     books = anna.search(book_name, limit=3)
-                    if(len(books) == 0):
-                        mastodon.status_post("Oi! Não encontrei nenhum livro", in_reply_to_id=notification["status"]["id"], visibility='direct')
+                    if (len(books) == 0):
+                        mastodon.status_post(
+                            "Oi! Não encontrei nenhum livro", in_reply_to_id=notification["status"]["id"], visibility='direct')
                         print(f'Não encontrei nenhum livro')
                     else:
                         suggestions = ""
                         for book in books:
-                            if(len(books)>1):
-                                suggestions = suggestions + book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
-                            
+                            if (len(books) > 1):
+                                suggestions = suggestions + \
+                                    book[1][:50]+", de " + \
+                                    book[0][:50]+". "+book[4]+"\n"
+
                             else:
-                                suggestions = book[1]+", de "+book[0]+". "+book[3]+"\n"
-                        if(("public" in clean_tags)):
+                                suggestions = book[1]+", de " + \
+                                    book[0]+". "+book[3]+"\n"
+                        if (("public" in clean_tags)):
                             visib = 'public'
                         else:
-                            visib = 'direct'            
-                        suggestions = "@"+notification["account"]["acct"]+" Oi! Essas são minhas sugestões:\n"+suggestions
-                        mastodon.status_post(suggestions, in_reply_to_id=notification["status"]["id"], visibility=visib)
+                            visib = 'direct'
+                        suggestions = "@" + \
+                            notification["account"]["acct"] + \
+                            " Oi! Essas são minhas sugestões:\n"+suggestions
+                        mastodon.status_post(
+                            suggestions, in_reply_to_id=notification["status"]["id"], visibility=visib)
                         print(suggestions)
 
-            elif(book_name.__contains__(thanks)):
-                msg = "@"+notification["account"]["acct"]+" eu que agradeço, flor!"
-                mastodon.status_post(msg, in_reply_to_id=notification["status"]["id"], visibility='direct')
+            elif (book_name.__contains__(thanks)):
+                msg = "@"+notification["account"]["acct"] + \
+                    " eu que agradeço, flor!"
+                mastodon.status_post(
+                    msg, in_reply_to_id=notification["status"]["id"], visibility='direct')
                 print(f'Agradeci a {notification["account"]["acct"]}')
 
             mastodon.notifications_dismiss(notification["id"])
+
+
 try:
     mastodon.stream_user(Listener())
 except urllib3.exceptions.ReadTimeoutError:
