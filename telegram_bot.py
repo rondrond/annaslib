@@ -1,7 +1,5 @@
 from telegram import __version__ as TG_VER
 import annas_archive as anna
-import re
-import urllib3
 import MemePy
 
 from telegram import ForceReply, Update
@@ -26,12 +24,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 async def search_book(update: Update, context) -> None:
     name = " ".join(context.args)
     books = anna.search(name, limit=3)
-    if (len(books) == 0):
+    if len(books) == 0:
         await update.message.reply_text('Não encontrei nenhum livro')
     else:
         suggestions = ""
         for book in books:
-            if (len(books) > 1):
+            if len(books) > 1:
                 suggestions = suggestions + \
                     book[1][:50]+", de "+book[0][:50]+". "+book[4]+"\n"
 
