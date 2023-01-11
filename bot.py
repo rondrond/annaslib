@@ -36,7 +36,7 @@ class Listener(StreamListener):
                         f'Nova menção de @{notification["account"]["acct"]}, pedindo {book_name}\n')
                     books = anna.search(book_name, limit=3)
                     if (len(books) == 0):
-                        mastodon.status_post("@"+notification["account"]["acct"]+"Oi! Não encontrei nenhum livro :/. Foi mal!",
+                        mastodon.status_post("@"+notification["account"]["acct"]+" Oi! Não encontrei nenhum livro :/. Foi mal!",
                                              in_reply_to_id=notification["status"]["id"], visibility='direct')
                         print('Não encontrei nenhum livro')
                     else:
