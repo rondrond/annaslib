@@ -41,3 +41,4 @@ def search(input, limit=5):
             new_book = [[details[3].get_text(), details[1].get_text(
             ), details[0].get_text(), "https://pt.annas-archive.org"+results['href']]]
             return new_book
+            
