@@ -9,4 +9,4 @@ except IndexError:
     
 for book in books:
     print(f'\n{book[1]}, de {book[0]}. {book[4]}')
-# {book[2]}: 2, {book[3]}: 3,
+# {book[2]}: 2, {book[3]}: 3,99

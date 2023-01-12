@@ -8,6 +8,7 @@ import urllib3
 BOT_AT = '@bibliotecaria'
 HASHTAG = "pfv"
 THANKS = "brigad"
+PUBLIC_TAGS = ['publico', 'público', 'public']
 
 mastodon = Mastodon(access_token='../token.secret',
                     api_base_url='https://botsin.space/')
@@ -50,7 +51,7 @@ class Listener(StreamListener):
                             else:
                                 suggestions = book[1]+", de " + \
                                     book[0]+". "+book[3]+"\n"
-                        if "public" in clean_tags:
+                        if any(item in PUBLIC_TAGS for item in clean_tags):
                             visib = 'public'
                         else:
                             visib = 'direct'
