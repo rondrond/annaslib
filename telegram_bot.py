@@ -21,6 +21,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     await update.message.reply_text("Uai, quer ajuda com o quê?!")
 
 
+async def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Uai, quer ajuda com o quê?!")
+
+
 async def search_book(update: Update, context) -> None:
     name = " ".join(context.args)
     books = anna.search(name, limit=3)
@@ -54,6 +58,7 @@ def main() -> None:
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("pesquisar", search_book))
+    application.add_handler(CommandHandler("log", log_command))
 
     application.add_handler(MessageHandler(filters.TEXT, echo))
     application.run_polling()
