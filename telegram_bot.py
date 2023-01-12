@@ -18,7 +18,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Uai, quer ajuda com o quê?! Ainda não posso te ajudar em nada. Apenas digite o nome do livro ou ISBN que ele será pesquisado")
+    await update.message.reply_text("Uai, quer ajuda com o quê?! Ainda não posso te ajudar em nada. Apenas digite o nome do livro, do autor ou ISBN que ele será pesquisado")
 
 
 async def log_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
