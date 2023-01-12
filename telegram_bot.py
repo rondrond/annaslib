@@ -1,6 +1,5 @@
 from telegram import __version__ as TG_VER
 import annas_archive as anna
-import MemePy
 
 from telegram import ForceReply, Update
 
