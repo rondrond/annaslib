@@ -48,6 +48,3 @@ def search(user_input, limit=5):
             new_book = [[pure_text[3], pure_text[1], pure_text[1],
                          "https://pt.annas-archive.org"+link]]
             return new_book
-
-
-test = []
