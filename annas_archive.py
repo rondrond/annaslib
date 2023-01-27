@@ -38,13 +38,6 @@ def search(user_input, limit=5):
             obj = []
             return obj
         else:
-            results = soup.find_all('a', {'class': 'custom-a'})[1]
-            # results['href'] / annas_url
-            details = results.find_all('div', {'class': 'truncate'})
-            # details[0].get_text() / format
-            # details[1].get_text() / nome do livro
-            # details[2].get_text() / editora
-            # details[3].get_text() / autor
             new_book = [[pure_text[3], pure_text[1], pure_text[1],
                          "https://pt.annas-archive.org"+link]]
             return new_book
