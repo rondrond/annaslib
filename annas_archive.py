@@ -14,9 +14,10 @@ def search(user_input, limit=5):
         for book in results:
             try:
                 if len(books) < int(limit):
-                    new_book = [book.find_all("div")[7].get_text(),
-                                book.find_all("div")[5].get_text(),
-                                book.find_all("div")[4].get_text(),
+                    pure_text = book.get_text().strip().split('\n')
+                    new_book = [pure_text[3],
+                                pure_text[1],
+                                pure_text[0],
                                 book.find_all("div")[6].get_text(),
                                 "https://pt.annas-archive.org"+book.find("a")['href']]
                     books.append(new_book)
@@ -28,7 +29,12 @@ def search(user_input, limit=5):
             get_canonical_isbn(user_input)
         page = requests.get(annas_url, timeout=2)
         soup = BeautifulSoup(page.content, "html.parser")
-        if len(soup.find_all('h2', {'class': 'mt-12 mb-1 text-3xl font-bold'})) == 0:
+        text = soup.find(
+            class_='relative top-[-1] pl-4 grow overflow-hidden')
+        pure_text = text.get_text().strip().split('\n')
+        link = soup.find('a', {
+                         'class': 'custom-a flex items-center relative left-[-10] px-[10] py-2 hover:bg-[#00000011]'})['href']
+        if len(text) == 0:
             obj = []
             return obj
         else:
@@ -39,6 +45,6 @@ def search(user_input, limit=5):
             # details[1].get_text() / nome do livro
             # details[2].get_text() / editora
             # details[3].get_text() / autor
-            new_book = [[details[3].get_text(), details[1].get_text(
-            ), details[0].get_text(), "https://pt.annas-archive.org"+results['href']]]
+            new_book = [[pure_text[3], pure_text[1], pure_text[1],
+                         "https://pt.annas-archive.org"+link]]
             return new_book
